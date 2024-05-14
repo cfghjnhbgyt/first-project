@@ -1,17 +1,22 @@
-function sortColors(nums) {
-  let left = 0;
-  let right = nums.length - 1;
-  let i = 0;
-  while (i <= right) {
-    if (nums[i] === 0) {
-      [nums[i], nums[left]] = [nums[left], nums[i]];
-      left++;
-      i++;
-    } else if (nums[i] === 2) {
-      [nums[i], nums[right]] = [nums[right], nums[i]];
-      right--;
-    } else {
-      i++;
+function permuteUnique(nums) {
+  nums.sort((a, b) => a - b);
+  const result = [];
+  const used = new Array(nums.length).fill(false);
+  backtrack([]);
+  return result;
+  function backtrack(permutation) {
+    if (permutation.length === nums.length) {
+      result.push([...permutation]);
+      return;
+    }
+    for (let i = 0; i < nums.length; i++) {
+      if (used[i] || (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]))
+        continue;
+      used[i] = true;
+      permutation.push(nums[i]);
+      backtrack(permutation);
+      permutation.pop();
+      used[i] = false;
     }
   }
 }
